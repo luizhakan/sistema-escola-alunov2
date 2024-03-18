@@ -1,5 +1,5 @@
 import express from "express";
-import { addAluno, aluno, alunocpf, changeDateAluno } from "./functions/functions";
+import { addAluno, aluno, alunocpf, changeDateAluno } from "../functions/functions";
 
 const app = express();
 app.use(express.json());
