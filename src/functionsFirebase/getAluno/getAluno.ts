@@ -12,7 +12,6 @@ async function getAlunos(db: any): Promise<DocumentData[]> {
 	const alunoSnapshot = await getDocs(alunoCol);
 	const alunoList = alunoSnapshot.docs.map((doc) => doc.data());
 
-	console.log("typeof db", typeof db);
 	return alunoList;
 }
 

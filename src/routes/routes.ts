@@ -17,6 +17,7 @@ const db = getFirestore(appFirebase);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function aluno (req: any, res: any) {
 	const alunos = await getAlunos(db);
+	console.log("alunos", alunos);
 	res.json(alunos);
 }
 
@@ -46,8 +47,19 @@ export async function alunocpf (req: any, res: any) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function addAluno (req: any, res: any) {
 	const { cpf, nome, dataNascimento } = req.body;
+	const regexCpf = /^[0-9]{11}$/;
+	if (!regexCpf.test(cpf) || nome === "" || nome === undefined || nome === null || dataNascimento === "" || dataNascimento === undefined || dataNascimento === null) {
+		const errorMessage = !regexCpf.test(cpf) ? "CPF inválido" : `Nome inválido ou vazio. Nome: ${nome}. Data de nascimento: ${dataNascimento}`;
+		res.status(400).json({ error: errorMessage });
+		return;
+	}
+	const buscarCpf = await getAlunoPorCpf(db, cpf);
+	if (buscarCpf) {
+		res.status(400).json({ error: "CPF existente" });
+		return;
+	}
 	const id = await postAluno(cpf, nome, dataNascimento);
-	res.json({ cpf, nome, dataNascimento, id });
+	res.status(201).json({ cpf, nome, dataNascimento, id, mensagem: "Aluno adicionado com sucesso!" });
 }
 
 /**

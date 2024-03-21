@@ -4,7 +4,8 @@
   "description": "Micro serviço de alunos do sistema escola ",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node src/main.ts --watchAll",
+    "start": "node --watch dist/main.js",
+    "watch": "tsc --watch",
     "build": "tsc --build"
   },
   "author": "Luiz Fernando",
